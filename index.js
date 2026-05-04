@@ -53,7 +53,7 @@ async function readBooksById(bookId){
 app.get("/books/:bookId", async (req,res)=>{
     try{
         const book=await readBooksById(req.params.bookId)
-        if(data){
+        if(book){
             res.json(book)
         }else{
             res.status(404).json({error: "Book not found."})
