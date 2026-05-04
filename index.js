@@ -41,6 +41,28 @@ app.get("/books",async (req,res)=>{
     }
 })
 
+async function readBooksById(bookId){
+    try{
+        const book=await Book.findById(bookId)
+        return book
+    }catch(error){
+        console.log(error)
+    }
+}
+
+app.get("/books/:bookId", async (req,res)=>{
+    try{
+        const book=await readBooksById(req.params.bookId)
+        if(data){
+            res.json(book)
+        }else{
+            res.status(404).json({error: "Book not found."})
+        }
+    }catch(error){
+        res.status(500).json({error: "Failed to fetch book data."})
+    }
+})
+
 const PORT=3000
 app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)
