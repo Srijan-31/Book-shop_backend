@@ -76,7 +76,7 @@ async function readAllCategory(){
 app.get("/categories", async (req,res)=>{
     try{
         const category=await readAllCategory()
-        if(category){
+        if(category.length!==0){
             res.json(category)
         }else{
             res.status(404).json({error: "Category not found."})
@@ -86,6 +86,27 @@ app.get("/categories", async (req,res)=>{
     }
 })
 
+async function readCategoryById(categoryId){
+    try{
+        const category=await Category.findById(categoryId)
+        return category
+    }catch(error){
+        console.log(error)
+    }
+}
+
+app.get("/categories/:categoryId", async (req,res)=>{
+    try{
+        const categoryById=await readCategoryById(req.params.categoryId)
+        if(categoryById){
+            res.json(categoryById)
+        }else{
+            res.status(404).json({error:"Cagtegory not found."})
+        }
+    }catch(error){
+        res.status(500).json({error:"Failed to fetch category."})
+    }
+})
 
 const PORT=3000
 app.listen(PORT,()=>{
