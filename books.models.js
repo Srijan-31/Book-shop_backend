@@ -9,10 +9,10 @@ const booksSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    category:{
-        type:String,
-        enum:["Self-Help","Fiction","Programming","Finance","Fantasy","Productivity"],
-        required:true
+    categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category",
+    required: true
     },
     oldPrice:{
         type:Number,

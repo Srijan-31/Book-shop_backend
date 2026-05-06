@@ -2,6 +2,7 @@ const {initializeDatabase}=require("./db/db.connect")
 const express=require("express")
 const app=express()
 const Book=require("./books.models")
+const Category=require("./category.models")
 
 app.use(express.json())
 
@@ -62,6 +63,29 @@ app.get("/books/:bookId", async (req,res)=>{
         res.status(500).json({error: "Failed to fetch book data."})
     }
 })
+
+async function readAllCategory(){
+    try{
+        const categories=await Category.find()
+        return categories
+    }catch(error){
+        console.log(error)
+    }
+}
+
+app.get("/categories", async (req,res)=>{
+    try{
+        const category=await readAllCategory()
+        if(category){
+            res.json(category)
+        }else{
+            res.status(404).json({error: "Category not found."})
+        }
+    }catch(error){
+        res.status(500).json({error:"Failed to fetch the data"})
+    }
+})
+
 
 const PORT=3000
 app.listen(PORT,()=>{
